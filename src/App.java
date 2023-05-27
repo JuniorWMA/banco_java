@@ -10,6 +10,9 @@ public class App {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
+        Conta conta = null;
+        Cliente cliente = null;
+
         
         //Abrindo uma conta no banco
         System.out.println("Olá! Seja bem vindo. Deseja abrir uma conta em nosso banco?");
@@ -26,7 +29,7 @@ public class App {
                 String nome = sc.nextLine();
                 System.out.println("Digite o seu cpf:");
                 String cpf = sc.nextLine();
-                Cliente cliente = new Cliente(nome, cpf);
+                cliente = new Cliente(nome, cpf);
                 System.out.println("Numero da conta:");
                 int numero = sc.nextInt();
                 System.out.println("Numero da agencia:");
@@ -37,7 +40,7 @@ public class App {
                 if (tipoConta ==1) {
                     tipo = TipoConta.CONTA_CORRENTE;
                 }
-                Conta conta = new Conta(numero, agencia, tipo, cliente, 0.0);
+                conta = new Conta(numero, agencia, tipo, cliente, 0.0);
                 System.out.println("Deseja abrir uma nova conta? S/N");
                 aberturaConta = sc.next().toUpperCase().charAt(0);
                 sc.nextLine();   
@@ -65,15 +68,63 @@ public class App {
 
             == Digite 0 para sair;
                 
-                """);
-        
-        
-        
+            """);
+            System.out.println("Digite uma das opções:");
+            int menu = sc.nextInt();
+            if (menu !=0) {
+                while (menu!=0) {
+                    if (menu == 1) {
+                        System.out.println("Digite um valor");
+                        Double valor = sc.nextDouble();
+                        conta.saque(valor);
+                        System.out.println("Seu novo saldo é de " + conta.getSaldo());
+                        System.out.println("Deseja realizar mais uma operação?\n Digite o número escolhido.");
+                        menu = sc.nextInt();
+    
+                        
+                    }if (menu == 2) {
+                        System.out.println("Digite o número da conta do favorecido");
+                        int contaFavorecido = sc.nextInt();
+                        System.out.println("Digite um valor");
+                        Double valor = sc.nextDouble();
+                        conta.deposito(contaFavorecido, valor);
+                        System.out.println("Seu novo saldo é " + conta.getSaldo());
+                        System.out.println("Deseja realizar mais uma operação?\n Digite o número escolhido.");
+                        menu = sc.nextInt();
+                    }if (menu == 3) {
+                        System.out.println("Digite o número da sua conta");
+                        Conta pessoa = null;
+                        int contaPessoal = sc.nextInt();
+                        pessoa.setNumero(contaPessoal);
+                        System.out.println("Digite o número da conta do favorecido");
+                        Conta contaFavorecido = null;
+                        int contaFavorecidoInt = sc.nextInt();
+                        contaFavorecido.setNumero(contaFavorecidoInt);
+                        System.out.println("Digite um valor");
+                        Double valor = sc.nextDouble();
+                        conta.transferencia(pessoa, contaFavorecido, valor);
+                        System.out.println("Deseja realizar mais uma operação?\n Digite o número escolhido.");
+                        menu = sc.nextInt();
+                    }if (menu == 4) {
+                        System.out.println("====****=======");
+                        System.out.println(conta.extrato());
+                        System.out.println("=====----======");
+                        System.out.println("Deseja realizar mais uma operação?\n Digite o número escolhido.");
+                        menu = sc.nextInt();
+                    }if(menu < 0 || menu >=5){
+                        System.out.println("Opção inválida.");
+                        System.out.println("Deseja realizar mais uma operação?\n Digite o número escolhido.");
+                        menu = sc.nextInt();
+                    }
+                    
+                }
+                System.out.println("Obrigado e tenha um bom dia!!!");
+                return;
+            }
+                  
 
-        sc.close();
-        
-
-        
-        
+            sc.close();
+        }
     }
-}
+
+
